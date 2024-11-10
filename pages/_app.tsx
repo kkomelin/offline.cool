@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
         src="https://cloud.umami.is/script.js"
         data-website-id="b08ba708-7ba4-4334-9e7d-82f7ba9d3d1d"
       />
+      <Script src="/sw-register.js" defer />
     </>
   );
 }
