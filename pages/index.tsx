@@ -173,7 +173,7 @@ export default function Home() {
               <div>
                 <div className="text-lg py-2">
                   And finally, put this one-liner into the &lt;head&gt; of your
-                  site frontpage
+                  site
                 </div>
                 <CopyBlock
                   text={`<script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('service-worker.js'); }</script>`}
