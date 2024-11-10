@@ -17,6 +17,55 @@ const geistMono = localFont({
 
 export default function Home() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [offlineMessage, setOfflineMessage] = useState("");
+
+  const handleDownloadOfflineHtml = (
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    e.preventDefault();
+    const content = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're offline but that's Okay</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #444;
+      font-size: 20px;
+    }
+    h2 {
+      background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;padding:1rem;">
+  <h2 style="text-align: center;">You're offline<br /> but look what we have for you...</h2>
+  <div style="max-width: 40rem;">
+  ${offlineMessage}
+  </div>
+</body>
+</html>
+`;
+
+    downloadFile("offline.html", content);
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setOfflineMessage(e.target.value);
+  };
+
+  const handleDone = () => {
+    setSelectedIndex(0);
+    setOfflineMessage("");
+  };
 
   return (
     <div
@@ -34,20 +83,19 @@ export default function Home() {
         />
 
         <TabGroup
-          className="w-full"
+          className="w-full mt-6"
           selectedIndex={selectedIndex}
           onChange={setSelectedIndex}
         >
-          <TabList className="flex justify-center space-x-2 border-b border-gray-200">
+          <TabList className="flex justify-center space-x-2 border-b border-red-200">
             <Tab
               className={({ selected }) =>
                 `${
                   selected
                     ? "bg-red-300 text-white border-red-300"
-                    : "bg-white text-gray-700 hover:bg-red-50 border-gray-300"
+                    : "bg-white text-gray-700 hover:bg-red-50 border-red-200 border-b-0"
                 } 
-              px-4 py-2 rounded-t-lg border-2 font-medium focus:outline-none transition-colors
-              ${selected ? "-mb-[2px]" : ""}`
+              px-4 py-2 rounded-t-lg border-2 font-medium focus:outline-none transition-colors`
               }
             >
               1. Content
@@ -57,31 +105,32 @@ export default function Home() {
                 `${
                   selected
                     ? "bg-red-300 text-white border-red-300"
-                    : "bg-white text-gray-700 hover:bg-red-50 border-gray-300"
+                    : "bg-white text-gray-700 hover:bg-red-50 border-red-200 border-b-0"
                 } 
-              px-4 py-2 rounded-t-lg border-2 font-medium focus:outline-none transition-colors
-              ${selected ? "-mb-[2px]" : ""}`
+              px-4 py-2 rounded-t-lg border-2 font-medium focus:outline-none transition-colors`
               }
             >
-              2. Integration
+              2. Installation
             </Tab>
           </TabList>
           <TabPanels className="mt-5">
             <TabPanel className="flex flex-col gap-4">
               <div>
                 <div className="text-lg py-2">
-                  Enter a piece of content you want to advertise to offline
-                  users
+                  First, enter a piece of content you want to advertise to
+                  offline users
                 </div>
                 <textarea
+                  value={offlineMessage}
                   id="message"
                   rows={10}
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
-                  placeholder="Write it here..."
+                  placeholder="Put it here..."
+                  onChange={handleContentChange}
                 ></textarea>
               </div>
 
-              <div className="flex flex-row justify-end items-center">
+              <div className="flex flex-row justify-end items-center mt-6">
                 <button
                   type="button"
                   onClick={() => setSelectedIndex(1)}
@@ -94,16 +143,30 @@ export default function Home() {
             <TabPanel className="flex flex-col gap-4">
               <div>
                 <div className="text-lg py-2">
-                  1. Copy this file to your site's root directory
+                  Now, copy these files to your site's root directory
                 </div>
-                <a href="/service-worker.js" download>
-                  service-worker.js
-                </a>
+                <ul className="list-disc pl-4 ml-4 text-gray-600">
+                  <li className="my-2">
+                    <a href="/service-worker.js" download className="underline">
+                      service-worker.js
+                    </a>
+                  </li>
+                  <li className="my-2">
+                    <a
+                      href="#"
+                      onClick={handleDownloadOfflineHtml}
+                      download
+                      className="underline"
+                    >
+                      offline.html
+                    </a>
+                  </li>
+                </ul>
               </div>
               <div>
                 <div className="text-lg py-2">
-                  3. Put this one-liner into the &lt;head&gt; of your site
-                  frontpage
+                  And finally, put this one-liner into the &lt;head&gt; of your
+                  site frontpage
                 </div>
                 <CopyBlock
                   text={`<script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('service-worker.js'); }</script>`}
@@ -114,7 +177,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-row justify-between items-center mt-6">
                 <button
                   type="button"
                   onClick={() => setSelectedIndex(0)}
@@ -124,7 +187,7 @@ export default function Home() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setSelectedIndex(0)}
+                  onClick={handleDone}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 >
                   That's it!
@@ -136,4 +199,20 @@ export default function Home() {
       </main>
     </div>
   );
+}
+
+function downloadFile(filename: string, text: string) {
+  var element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
