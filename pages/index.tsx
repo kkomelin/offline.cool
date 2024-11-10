@@ -77,10 +77,17 @@ export default function Home() {
           className="object-contain mb-10"
           src="/front-slogan.png"
           alt="Offline.cool logo"
-          width={300}
-          height={300}
+          width={200}
+          height={200}
           priority
         />
+
+        <div className="mt-6">
+          <p className="text-center text-xl font-semibold text-red-500 max-w-2xl">
+            Educate, entertain or convert your users to something else with your
+            own Cool offline page.
+          </p>
+        </div>
 
         <TabGroup
           className="w-full mt-6"
