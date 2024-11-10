@@ -74,7 +74,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 items-center justify-center w-full">
         <Image
           // className="dark:invert"
-          className="object-contain mb-10"
+          className="object-contain mb-2"
           src="/front-slogan.png"
           alt="Offline.cool logo"
           width={200}
@@ -82,15 +82,15 @@ export default function Home() {
           priority
         />
 
-        <div className="mt-6">
-          <p className="text-center text-xl font-semibold text-red-500 max-w-2xl">
-            Educate, entertain or convert your users to something else with your
-            own Cool offline page.
+        <div className="md:mt-4">
+          <p className="text-center text-2xl font-semibold text-red-500 max-w-2xl">
+            Educate, entertain or convert your users to smth else with your
+            own Cool offline page
           </p>
         </div>
 
         <TabGroup
-          className="w-full mt-6"
+          className="w-full mt-10"
           selectedIndex={selectedIndex}
           onChange={setSelectedIndex}
         >
