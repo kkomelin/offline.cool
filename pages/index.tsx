@@ -124,7 +124,7 @@ export default function Home() {
                   value={offlineMessage}
                   id="message"
                   rows={10}
-                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-red-50 rounded-lg border border-red-300 focus:ring-red-500 focus:border-red-500 placeholder-red-400"
                   placeholder="Put it here..."
                   onChange={handleContentChange}
                 ></textarea>
